@@ -82,6 +82,7 @@ This project is licensed under the MIT License. Feel free to modify and use it a
 •	可配置選擇器：輕鬆自定義不同網站的連結與內容選擇器。
 
 
+
 環境需求
 
 執行此腳本需要安裝以下 Python 套件：
