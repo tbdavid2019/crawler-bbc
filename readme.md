@@ -1,5 +1,4 @@
 
-
 # Web Scraper
 
 This Python script is a versatile and customizable web scraper designed for extracting articles or specific content from websites. It includes robust logging and handles potential issues such as rate-limiting and incomplete data gracefully.
@@ -26,18 +25,18 @@ pip install requests beautifulsoup4
 
 How to Use
 
-	1.	Modify Scraping Configuration:
+	1.	Modify Scraping Configuration
 Update the following parameters in the script based on your target website:
 	•	base_url: The root URL of the website to scrape.
 	•	link_selector: CSS selector for identifying links to the articles.
 	•	content_selector: CSS selector for extracting the desired content.
-	2.	Run the Script:
+	2.	Run the Script
 Execute the script in your Python environment:
 
 python scraper.py
 
 
-	3.	View Results:
+	3.	View Results
 	•	The scraped data will be saved in a text file (e.g., BBC_file.txt).
 	•	Logs of the scraping process will be stored in scraper.log.
 
@@ -88,18 +87,18 @@ pip install requests beautifulsoup4
 
 使用方法
 
-	1.	修改爬取配置：
+	1.	修改爬取配置
 根據目標網站更新腳本中的以下參數：
 	•	base_url：要爬取的網站根網址。
 	•	link_selector：用於識別文章連結的 CSS 選擇器。
 	•	content_selector：用於提取內容的 CSS 選擇器。
-	2.	執行腳本：
+	2.	執行腳本
 在 Python 環境中執行腳本：
 
 python scraper.py
 
 
-	3.	查看結果：
+	3.	查看結果
 	•	爬取的資料將儲存在文本文件中（例如：BBC_file.txt）。
 	•	爬取過程的日誌記錄在 scraper.log 文件中。
 
@@ -127,3 +126,4 @@ python scraper.py
 此項目基於 MIT 授權。您可自由修改並使用此腳本。
 
 Happy scraping! 🕸️ 爬取愉快！
+
