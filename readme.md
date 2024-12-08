@@ -1,139 +1,60 @@
+# News RSS Crawler
 
-# Web Scraper
+本程式將透過多個 RSS Feed 來源自動擷取最新的新聞內容，包括 BBC、Bloomberg、Nasdaq 等多個來源，並將抓取到的新聞內容輸出至 `allnews.txt`。
 
-This Python script is a versatile and customizable web scraper designed for extracting articles or specific content from websites. It includes robust logging and handles potential issues such as rate-limiting and incomplete data gracefully.
+## 功能特色
 
-## Features
+- 支援多個新聞來源的 RSS 爬取（BBC、Bloomberg、Nasdaq 等）。
+- 可透過修改變數 (scrape_xxx) 來決定是否要啟用或停用特定新聞來源的爬取行為。
+- 將所有結果以追加 (append) 方式寫入 `allnews.txt`，方便後續分析或匯入。
+- 具備簡單的日誌紀錄功能 (scraper.log)，幫助追蹤程式運行狀況及錯誤資訊。
 
-- **Custom Logging**: Logs scraping progress and issues to both the console and a log file (`scraper.log`).
-- **HTML Parsing**: Utilizes `BeautifulSoup` for efficient HTML parsing and content extraction.
-- **Throttling**: Implements random delays between requests to reduce the risk of getting blocked.
-- **Error Handling**: Handles common issues such as HTTP errors, timeouts, and short/incomplete content gracefully.
-- **Configurable Selectors**: Easily customize the link and content selectors for different websites.
+## 使用方法
 
-## Requirements
+1. **下載程式碼**  
+   將本程式碼下載或 clone 到本地環境：
+   ```bash
+   git clone https://github.com/tbdavid2019/crawler-news.git
 
-To run the script, ensure you have the following Python packages installed:
+2.	安裝依賴套件
+確保您已安裝 Python 3 和 pip。在專案目錄下執行：
 
-- `requests`
-- `beautifulsoup4`
+pip install -r requirements.txt
 
-Install them using pip:
+若您環境中未有該檔案，可自行透過以下指令安裝本程式所需套件：
 
-```bash
-pip install requests beautifulsoup4
-```
-
-How to Use
-
-1.	Modify Scraping Configuration
-Update the following parameters in the script based on your target website:
-	•	base_url: The root URL of the website to scrape.
-	•	link_selector: CSS selector for identifying links to the articles.
-	•	content_selector: CSS selector for extracting the desired content.
-
-2.	Run the Script
-Execute the script in your Python environment:
-```
-python scraper.py
-```
-
-3.	View Results
-	•	The scraped data will be saved in a text file (e.g., BBC_file.txt).
-	•	Logs of the scraping process will be stored in scraper.log.
+pip install requests beautifulsoup4 lxml
 
 
----
-Example Configuration
+3.	設定爬取來源
+在程式碼開頭的參數區域中，可透過改變 1 或 0 來控制爬取特定來源：
 
-The script includes a pre-configured example for scraping articles from BBC News:
-	•	Base URL: https://www.bbc.com
-	•	Link Selector: a[href^='/news/articles/']
-	•	Content Selector: p
-	•	Output File: BBC_file.txt
-
-Logging
-
-The script outputs logs to both the console and a file (scraper.log):
-	•	Console: Ensures logs are visible in interactive environments like Google Colab.
-	•	Log File: Contains detailed information for debugging and reference.
-
-Notes
-
-•	Ensure you comply with the terms of service of the websites you scrape.
-•	Use this script responsibly and avoid overloading servers.
+# 1 表示爬取，0 表示略過
+scrape_bbc_business = 1
+scrape_bbc_technology = 1
+scrape_bloomberg_markets = 1
+scrape_bloomberg_tech = 1
+scrape_nasdaq_stocks = 1
+scrape_nasdaq_etfs = 1
+scrape_nasdaq_technology = 1
+scrape_nasdaq_insight = 1
+scrape_nasdaq_innovation = 1
+scrape_nasdaq_financial_advisors = 1
 
 
-License
+4.	執行程式
+在專案目錄下執行：
 
-This project is licensed under the MIT License. Feel free to modify and use it as needed.
+python news_crawler.py
 
----
-網頁爬蟲工具
+程式會開始爬取指定的 RSS 新聞來源並將結果輸出到 allnews.txt。
 
-此 Python 腳本是一個多功能且可自定義的網頁爬蟲，專為從網站中提取文章或特定內容而設計。它包括穩健的日誌記錄功能，並能有效處理速率限制和資料不完整等潛在問題。
+5.	查看結果
+爬取結束後，可查看 allnews.txt 檔案，其中包含各篇新聞的 URL 及內容。亦可查看 scraper.log 檔案取得爬取過程中的詳細日誌紀錄與錯誤資訊。
 
-功能特點
-
-•	自定義日誌：將爬取進度和問題記錄到控制台與日誌文件（scraper.log）。
-•	HTML 解析：使用 BeautifulSoup 進行高效的 HTML 解析和內容提取。
-•	請求節流：在請求間隨機延遲，降低被封鎖的風險。
-•	錯誤處理：妥善處理 HTTP 錯誤、超時及過短/不完整的內容。
-•	可配置選擇器：輕鬆自定義不同網站的連結與內容選擇器。
-
-
-
-環境需求
-
-執行此腳本需要安裝以下 Python 套件：
-	•	requests
-	•	beautifulsoup4
-
-使用 pip 安裝：
-
-pip install requests beautifulsoup4
-
-使用方法
-
-1.	修改爬取配置
-根據目標網站更新腳本中的以下參數：
-	•	base_url：要爬取的網站根網址。
-	•	link_selector：用於識別文章連結的 CSS 選擇器。
-	•	content_selector：用於提取內容的 CSS 選擇器。
-
-2.	執行腳本
-在 Python 環境中執行腳本：
-```
-python scraper.py
-```
-
-3.	查看結果
-	•	爬取的資料將儲存在文本文件中（例如：BBC_file.txt）。
-	•	爬取過程的日誌記錄在 scraper.log 文件中。
-
-
-示例配置
-
-腳本中包含預設配置，用於從 BBC News 爬取文章：
-	•	根網址：https://www.bbc.com
-	•	連結選擇器：a[href^='/news/articles/']
-	•	內容選擇器：p
-	•	輸出文件：BBC_file.txt
-
-日誌記錄
-
-腳本將日誌輸出至控制台與文件（scraper.log）：
-	•	控制台：確保在互動環境（如 Google Colab）中可見日誌。
-	•	日誌文件：詳細記錄調試與參考資訊。
-
-注意事項
-•	請確保遵守目標網站的服務條款。
-•	負責任地使用此腳本，避免過度請求伺服器。
-
-
-授權
-
-此項目基於 MIT 授權。您可自由修改並使用此腳本。
-
-Happy scraping! 🕸️ 爬取愉快！
+常見問題
+•	為什麼有些新聞內容很短或沒有內容？
+有些新聞頁面可能結構特殊或無法正常解析出文章內容。程式中設有簡單判斷機制，若內容太短 (例如少於 50 字) 將自動跳過，避免紀錄垃圾內容。
+•	可以新增更多 RSS 來源嗎？
+可以，您只需在程式中新增對應的 RSS Feed URL 及控制變數，即可輕鬆擴充。
 
