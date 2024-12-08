@@ -29,7 +29,7 @@ pip install requests beautifulsoup4 lxml
 3.	設定爬取來源
 在程式碼開頭的參數區域中，可透過改變 1 或 0 來控制爬取特定來源：
 
-# 1 表示爬取，0 表示略過
+1 表示爬取，0 表示略過
 scrape_bbc_business = 1
 scrape_bbc_technology = 1
 scrape_bloomberg_markets = 1
