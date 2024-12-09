@@ -7,17 +7,21 @@ import random
 from datetime import datetime
 import sys
 
-# ============ 參數開關 (1: 爬取, 0: 不爬取) ============
-scrape_bbc_business = 1
-scrape_bbc_technology = 1
-scrape_bloomberg_markets = 1
-scrape_bloomberg_tech = 1
-scrape_nasdaq_stocks = 1
-scrape_nasdaq_etfs = 1
-scrape_nasdaq_technology = 1
-scrape_nasdaq_insight = 1
-scrape_nasdaq_innovation = 1
-scrape_nasdaq_financial_advisors = 1
+
+
+# ============ RSS 來源與開關 ============
+RSS_SOURCES = {
+    "BBC Business": {"url": "https://feeds.bbci.co.uk/news/business/rss.xml", "enabled": 1},
+    "BBC Technology": {"url": "https://feeds.bbci.co.uk/news/technology/rss.xml", "enabled": 0},
+    "Bloomberg Markets": {"url": "https://feeds.bloomberg.com/markets/news.rss", "enabled": 0},
+    "Bloomberg Technology": {"url": "https://feeds.bloomberg.com/technology/news.rss", "enabled": 1},
+    "WSJ World News": {"url": "https://feeds.content.dowjones.io/public/rss/RSSWorldNews", "enabled": 1},
+    "WSJ US Business": {"url": "https://feeds.content.dowjones.io/public/rss/WSJcomUSBusiness", "enabled": 1},
+    "WSJ Markets": {"url": "https://feeds.content.dowjones.io/public/rss/RSSMarketsMain", "enabled": 1},
+    "WSJ Technology": {"url": "https://feeds.content.dowjones.io/public/rss/RSSWSJD", "enabled": 1},
+    "WSJ Social Economy": {"url": "https://feeds.content.dowjones.io/public/rss/socialeconomyfeed", "enabled": 0},
+    "WSJ Personal Finance": {"url": "https://feeds.content.dowjones.io/public/rss/RSSPersonalFinance", "enabled": 0}
+}
 
 # 自定义处理器，确保日志显示在 Console
 class ColabStreamHandler(logging.StreamHandler):
@@ -45,6 +49,9 @@ logger.addHandler(file_handler)
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
 }
+
+
+
 
 # 清空指定文件内容
 def clear_file(file_name):
@@ -92,7 +99,6 @@ def scrape_articles(article_urls, content_selector, file_name):
                 fin.write(f"URL: {article['URL']}\n")
                 fin.write(f"Content: {article['Content']}\n\n")
 
-# 爬取 RSS 的方法
 def scrape_rss_feed(rss_url, content_selector, file_name):
     logger.info(f"Starting to scrape RSS feed: {rss_url}")
     start_time = datetime.now()
@@ -115,93 +121,26 @@ def scrape_rss_feed(rss_url, content_selector, file_name):
     except Exception as e:
         logger.error(f"Error during RSS scraping: {e}")
 
+
+
+# 动态处理 RSS 源
+def scrape_all_rss_sources(rss_sources, content_selector, file_name):
+    for name, data in rss_sources.items():
+        if data["enabled"] == 1:
+            logger.info(f"Scraping enabled RSS feed: {name} ({data['url']})")
+            scrape_rss_feed(data["url"], content_selector, file_name)
+        else:
+            logger.info(f"Skipping disabled RSS feed: {name}")
+
 try:
     # 清空檔案內容
     clear_file("scraper.log")
     clear_file("allnews.txt")
 
-    # BBC Feeds
-    if scrape_bbc_business == 1:
-        logger.info("Scraping BBC Business RSS...")
-        scrape_rss_feed(
-            rss_url="https://feeds.bbci.co.uk/news/business/rss.xml",
-            content_selector="p",
-            file_name="allnews.txt"
-        )
-
-    if scrape_bbc_technology == 1:
-        logger.info("Scraping BBC Technology RSS...")
-        scrape_rss_feed(
-            rss_url="https://feeds.bbci.co.uk/news/technology/rss.xml",
-            content_selector="p",
-            file_name="allnews.txt"
-        )
-
-    # Bloomberg Feeds
-    if scrape_bloomberg_markets == 1:
-        logger.info("Scraping Bloomberg Markets RSS...")
-        scrape_rss_feed(
-            rss_url="https://feeds.bloomberg.com/markets/news.rss",
-            content_selector="p",
-            file_name="allnews.txt"
-        )
-
-    if scrape_bloomberg_tech == 1:
-        logger.info("Scraping Bloomberg Technology RSS...")
-        scrape_rss_feed(
-            rss_url="https://feeds.bloomberg.com/technology/news.rss",
-            content_selector="p",
-            file_name="allnews.txt"
-        )
-
-    # Nasdaq Feeds
-    if scrape_nasdaq_stocks == 1:
-        logger.info("Scraping Nasdaq Stocks RSS...")
-        scrape_rss_feed(
-            rss_url="https://www.nasdaq.com/feed/rssoutbound?category=Stocks",
-            content_selector="p",
-            file_name="allnews.txt"
-        )
-
-    if scrape_nasdaq_etfs == 1:
-        logger.info("Scraping Nasdaq ETFs RSS...")
-        scrape_rss_feed(
-            rss_url="https://www.nasdaq.com/feed/rssoutbound?category=ETFs",
-            content_selector="p",
-            file_name="allnews.txt"
-        )
-
-    if scrape_nasdaq_technology == 1:
-        logger.info("Scraping Nasdaq Technology RSS...")
-        scrape_rss_feed(
-            rss_url="https://www.nasdaq.com/feed/rssoutbound?category=Technology",
-            content_selector="p",
-            file_name="allnews.txt"
-        )
-
-    if scrape_nasdaq_insight == 1:
-        logger.info("Scraping Nasdaq Insight RSS...")
-        scrape_rss_feed(
-            rss_url="https://www.nasdaq.com/feed/rssoutbound?category=Nasdaq",
-            content_selector="p",
-            file_name="allnews.txt"
-        )
-
-    if scrape_nasdaq_innovation == 1:
-        logger.info("Scraping Nasdaq Innovation RSS...")
-        scrape_rss_feed(
-            rss_url="https://www.nasdaq.com/feed/rssoutbound?category=Innovation",
-            content_selector="p",
-            file_name="allnews.txt"
-        )
-
-    if scrape_nasdaq_financial_advisors == 1:
-        logger.info("Scraping Nasdaq Financial Advisors RSS...")
-        scrape_rss_feed(
-            rss_url="https://www.nasdaq.com/feed/rssoutbound?category=Financial+Advisors",
-            content_selector="p",
-            file_name="allnews.txt"
-        )
+    # 爬取所有启用的 RSS 源
+    scrape_all_rss_sources(RSS_SOURCES, "p", "allnews.txt")
 
 except Exception as e:
     logger.error(f"Error in main scraping process: {e}")
+
+
