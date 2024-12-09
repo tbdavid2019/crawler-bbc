@@ -32,16 +32,18 @@ pip install requests beautifulsoup4 lxml
 1 表示爬取，0 表示略過
 
 ```
-scrape_bbc_business = 1
-scrape_bbc_technology = 1
-scrape_bloomberg_markets = 1
-scrape_bloomberg_tech = 1
-scrape_nasdaq_stocks = 1
-scrape_nasdaq_etfs = 1
-scrape_nasdaq_technology = 1
-scrape_nasdaq_insight = 1
-scrape_nasdaq_innovation = 1
-scrape_nasdaq_financial_advisors = 1
+RSS_SOURCES = {
+    "BBC Business": {"url": "https://feeds.bbci.co.uk/news/business/rss.xml", "enabled": 1},
+    "BBC Technology": {"url": "https://feeds.bbci.co.uk/news/technology/rss.xml", "enabled": 0},
+    "Bloomberg Markets": {"url": "https://feeds.bloomberg.com/markets/news.rss", "enabled": 0},
+    "Bloomberg Technology": {"url": "https://feeds.bloomberg.com/technology/news.rss", "enabled": 1},
+    "WSJ World News": {"url": "https://feeds.content.dowjones.io/public/rss/RSSWorldNews", "enabled": 1},
+    "WSJ US Business": {"url": "https://feeds.content.dowjones.io/public/rss/WSJcomUSBusiness", "enabled": 1},
+    "WSJ Markets": {"url": "https://feeds.content.dowjones.io/public/rss/RSSMarketsMain", "enabled": 1},
+    "WSJ Technology": {"url": "https://feeds.content.dowjones.io/public/rss/RSSWSJD", "enabled": 1},
+    "WSJ Social Economy": {"url": "https://feeds.content.dowjones.io/public/rss/socialeconomyfeed", "enabled": 0},
+    "WSJ Personal Finance": {"url": "https://feeds.content.dowjones.io/public/rss/RSSPersonalFinance", "enabled": 0}
+}
 ```
 
 4.	執行程式
